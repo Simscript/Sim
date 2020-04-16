@@ -1,0 +1,3 @@
+integer`d`d
+real`d`d
+float`d`d
