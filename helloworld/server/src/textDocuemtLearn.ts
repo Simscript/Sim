@@ -50,7 +50,7 @@ export class ErrorList{
 		this.errorMap["PW9"] = new Error(ErrorType.PARSE_WARNING,"if或者while后面的判断语句必须用小括号括起来");//已完成
 		this.errorMap["PW10"] = new Error(ErrorType.PARSE_WARNING,"禁止将标签定义为关键字和基本类型");//已完成
 		this.errorMap["PW11"] = new Error(ErrorType.PARSE_WARNING,"禁止全局变量与局部变量同名");//已完成
-		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序必须与定义的个数和顺序不相同");
+		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序与定义的个数和顺序不相同");
 		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");
 		this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING,"禁止函数为空");
 		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");
@@ -77,15 +77,14 @@ export class ErrorList{
 		this.errorMap["PR8"] = new Error(ErrorType.PARSE_RECOMMEND,"建议不使用for each");//已完成
 		this.errorMap["PR9"] = new Error(ErrorType.PARSE_RECOMMEND,"建议逻辑表达式尽量少使用is false");//已完成
 		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");
-		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"建议给变量赋的值和变量类型要一致");
-		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
-		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
-		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");
-		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
-		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量明名");
-		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
-		this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
-		this.errorMap["PR19"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
+		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
+		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
+		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");
+		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
+		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量明名");
+		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
+		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
+		this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
 
 	};
 }
