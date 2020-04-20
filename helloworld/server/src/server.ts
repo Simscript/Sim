@@ -17,7 +17,6 @@ import {
 	TextDocumentPositionParams
 } from 'vscode-languageserver';
 
-import * as fs from 'fs-extra';
 
 import {getTextDocument} from "./textDocuemtLearn";
 import {myOnCompletion} from './codeCompletion';
