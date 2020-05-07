@@ -186,6 +186,41 @@ class MyParse {
                     };
                     this.parseDiagnostic.push(diagonsitic);
                 }
+                else if ((this.myTokens[this.parsePosition].myTokenVal.toUpperCase() == "O") || (this.myTokens[this.parsePosition].myTokenVal == "l")) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PW24"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                else if ((this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 'i' && this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 'r'
+                    && this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 'd' && this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 't'
+                    && this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 'p' && this.myTokens[this.parsePosition].myTokenVal.substr(0, 1) != 'a')) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PR15"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+            }
+            else if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.ID && this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
+                let diagonsitic = {
+                    severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                    range: {
+                        start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                        end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                    },
+                    message: this.parseErrorList.errorMap["PW6"].errorMessage
+                };
+                this.parseDiagnostic.push(diagonsitic);
             }
             this.match();
         }
@@ -282,9 +317,9 @@ class MyParse {
         }
     }
     /**
-     * destory
+     * destroy
      */
-    destory() {
+    destroy() {
         var _a, _b, _c;
         this.match();
         //去掉冠词
@@ -293,15 +328,35 @@ class MyParse {
         }
         //表明必然是临时实体
         if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.ID) {
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PW13"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
             // 有别名的临时实体
             if (this.myTokens[this.parsePosition + 1].myTag == textDocuemtLearn_1.Tag.KW_CALLED) {
                 this.match(); //变成了called
                 this.match(); //变成了called的对象
-                (_a = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _a === void 0 ? void 0 : _a.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTORY);
+                if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.ID) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PW13"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                (_a = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _a === void 0 ? void 0 : _a.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTROY);
                 this.match();
             }
             else {
-                (_b = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _b === void 0 ? void 0 : _b.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTORY);
+                (_b = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _b === void 0 ? void 0 : _b.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTROY);
                 this.match();
             }
         }
@@ -312,11 +367,20 @@ class MyParse {
             this.match();
             do {
                 if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.ID && this.parsePreamble.entityList.entityMap.has(this.myTokens[this.parsePosition].myTokenVal)) {
-                    (_c = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _c === void 0 ? void 0 : _c.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTORY);
+                    (_c = this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)) === null || _c === void 0 ? void 0 : _c.setIsCreate(textDocuemtLearn_1.Tag.KW_DESTROY);
                 }
                 this.match();
             } while ((this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.ID || this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.COMMA) &&
                 this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart).line == parseLine);
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PW13"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
         }
     }
     /**
@@ -349,6 +413,30 @@ class MyParse {
             };
             this.parseDiagnostic.push(diagonsitic);
         }
+        //判断routine只有return语句
+        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_RETURN) {
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PR13"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
+        }
+        //判断routine为空
+        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PW14"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
+        }
     }
     /**
      * if_stmt
@@ -370,7 +458,7 @@ class MyParse {
             };
             this.parseDiagnostic.push(diagonsitic);
         }
-        if (this.myTokens[this.parsePosition + 1].myTag != textDocuemtLearn_1.Tag.LPAREN) {
+        if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.LPAREN) {
             let diagonsitic = {
                 severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
                 range: {
@@ -424,6 +512,39 @@ class MyParse {
     yielding() {
         this.match();
         this.parseRoutineParameterList.hasYielding = true;
+        while (true) {
+            this.match();
+            if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
+                break;
+            }
+            else {
+                this.match();
+            }
+        }
+        //判断routine只有return语句
+        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_RETURN) {
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PR13"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
+        }
+        //判断routine为空
+        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+            let diagonsitic = {
+                severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                range: {
+                    start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                    end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                },
+                message: this.parseErrorList.errorMap["PW14"].errorMessage
+            };
+            this.parseDiagnostic.push(diagonsitic);
+        }
     }
     /**
      * statement
@@ -445,8 +566,8 @@ class MyParse {
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_CREATE) {
                 this.create();
             }
-            else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_DESTORY) {
-                this.destory();
+            else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_DESTROY) {
+                this.destroy();
             }
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_GIVEN) {
                 this.given();
@@ -462,6 +583,162 @@ class MyParse {
             }
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_FOR) {
                 this.for_stmt();
+            }
+            else if ((this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_FUNCTION
+                || this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_PROCESS)
+                && this.myTokens[this.parsePosition + 1].myTag == textDocuemtLearn_1.Tag.ID) {
+                let startOffset = this.myTokens[this.parsePosition].myTokenOffsetStart;
+                let endOffset = 0;
+                let endAppear = false;
+                this.match();
+                this.match();
+                if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                    endAppear = true;
+                    endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                    this.match();
+                }
+                if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_GIVEN && !endAppear) {
+                    this.match();
+                    while (true) {
+                        this.match();
+                        if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
+                            break;
+                        }
+                        else {
+                            this.match();
+                        }
+                    }
+                    if (this.parsePosition < this.myTokens.length &&
+                        this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                        endAppear = true;
+                        endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                        this.match();
+                    }
+                }
+                else if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.LPAREN && !endAppear) {
+                    this.match();
+                    while (true) {
+                        this.match();
+                        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.RPAREN) {
+                            break;
+                        }
+                        else {
+                            this.match();
+                        }
+                    }
+                    this.match();
+                    if (this.parsePosition < this.myTokens.length &&
+                        this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                        endAppear = true;
+                        endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                        this.match();
+                    }
+                }
+                if (endAppear) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                        range: {
+                            start: this.parseDocument.positionAt(startOffset - 1),
+                            end: this.parseDocument.positionAt(endOffset)
+                        },
+                        message: this.parseErrorList.errorMap["PW14"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                console.log();
+                if (this.parsePosition >= this.myTokens.length) {
+                    break;
+                }
+            }
+            else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_ROUTINE
+                && this.myTokens[this.parsePosition + 1].myTag == textDocuemtLearn_1.Tag.ID) {
+                let startOffset = this.myTokens[this.parsePosition].myTokenOffsetStart;
+                let endOffset = 0;
+                let endAppear = false;
+                this.match();
+                this.match();
+                if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                    endAppear = true;
+                    endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                    this.match();
+                }
+                if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_GIVEN && !endAppear) {
+                    this.match();
+                    while (true) {
+                        this.match();
+                        if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
+                            break;
+                        }
+                        else {
+                            this.match();
+                        }
+                    }
+                    if (this.parsePosition < this.myTokens.length &&
+                        this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                        endAppear = true;
+                        endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                        this.match();
+                    }
+                }
+                else if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.LPAREN && !endAppear) {
+                    this.match();
+                    while (true) {
+                        this.match();
+                        if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.RPAREN) {
+                            break;
+                        }
+                        else {
+                            this.match();
+                        }
+                    }
+                    this.match();
+                    if (this.parsePosition < this.myTokens.length &&
+                        this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                        endAppear = true;
+                        endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                        this.match();
+                    }
+                }
+                if (this.parsePosition < this.myTokens.length &&
+                    this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_YIELDING && !endAppear) {
+                    this.match();
+                    while (true) {
+                        this.match();
+                        if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
+                            break;
+                        }
+                        else {
+                            this.match();
+                        }
+                    }
+                    if (this.parsePosition < this.myTokens.length &&
+                        this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
+                        endAppear = true;
+                        endOffset = this.myTokens[this.parsePosition].myTokenOffsetEnd;
+                        this.match();
+                    }
+                }
+                if (endAppear) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
+                        range: {
+                            start: this.parseDocument.positionAt(startOffset - 1),
+                            end: this.parseDocument.positionAt(endOffset)
+                        },
+                        message: this.parseErrorList.errorMap["PW14"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                console.log();
+                if (this.parsePosition >= this.myTokens.length) {
+                    break;
+                }
             }
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_END) {
                 this.match();
@@ -548,7 +825,7 @@ class MyParse {
                     this.parseDiagnostic.push(diagonsitic);
                 }
                 //return 查找
-                if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_RETUEN && this.parseRoutineParameterList.hasYielding) {
+                if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_RETURN && this.parseRoutineParameterList.hasYielding) {
                     if (this.parseDocument.positionAt(this.myTokens[this.parsePosition + 1].myTokenOffsetStart).line !=
                         this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd).line) {
                         let diagonsitic = {

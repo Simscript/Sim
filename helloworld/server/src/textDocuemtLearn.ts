@@ -44,14 +44,14 @@ export class ErrorList{
 		this.errorMap["PW3"] = new Error(ErrorType.PARSE_WARNING,"禁止条件判别条件成立时分支无执行语句");//已完成
 		this.errorMap["PW4"] = new Error(ErrorType.PARSE_WARNING,"在select语句中必须有default语句");// 已完成
 		this.errorMap["PW5"] = new Error(ErrorType.PARSE_WARNING,"禁止使用goto语句");// 已完成
-		this.errorMap["PW6"] = new Error(ErrorType.PARSE_WARNING,"禁止重新定义关键字");
+		this.errorMap["PW6"] = new Error(ErrorType.PARSE_WARNING,"禁止重新定义关键字");//已完成
 		this.errorMap["PW7"] = new Error(ErrorType.PARSE_WARNING,"数组下标必须是整数");//已完成
 		this.errorMap["PW8"] = new Error(ErrorType.PARSE_WARNING,"有返回值的函数中return必须带有返回值");//已完成
 		this.errorMap["PW9"] = new Error(ErrorType.PARSE_WARNING,"if或者while后面的判断语句必须用小括号括起来");//已完成
 		this.errorMap["PW10"] = new Error(ErrorType.PARSE_WARNING,"禁止将标签定义为关键字和基本类型");//已完成
 		this.errorMap["PW11"] = new Error(ErrorType.PARSE_WARNING,"禁止全局变量与局部变量同名");//已完成
 		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序与定义的个数和顺序不相同");
-		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");
+		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");//已完成
 		this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING,"禁止函数为空");
 		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");
 		this.errorMap["PW16"] = new Error(ErrorType.PARSE_WARNING,"禁止将越界整数赋值给整型变量");
@@ -62,7 +62,7 @@ export class ErrorList{
 		this.errorMap["PW21"] = new Error(ErrorType.PARSE_WARNING,"禁止使用实体名作为实体指针");
 		this.errorMap["PW22"] = new Error(ErrorType.PARSE_WARNING,"禁止在内部块中重新定义已有的变量名");
 		this.errorMap["PW23"] = new Error(ErrorType.PARSE_WARNING,"禁止局部变量名和函数名同名");
-		this.errorMap["PW24"] = new Error(ErrorType.PARSE_WARNING,"禁止单独使用小写字母“l”或大写字母“O”作为变量名");
+		this.errorMap["PW24"] = new Error(ErrorType.PARSE_WARNING,"禁止单独使用小写字母“l”或大写字母“O”作为变量名");//已完成
 		this.errorMap["PW25"] = new Error(ErrorType.PARSE_WARNING,"禁止更改time.v的值");
 		this.errorMap["PW26"] = new Error(ErrorType.PARSE_WARNING,"在执行事件函数时必须加上start simulation");
 
@@ -76,12 +76,12 @@ export class ErrorList{
 		this.errorMap["PR7"] = new Error(ErrorType.PARSE_RECOMMEND,"函数中避免使用过多的参数，建议不要超过10个");//已完成
 		this.errorMap["PR8"] = new Error(ErrorType.PARSE_RECOMMEND,"建议不使用for each");//已完成
 		this.errorMap["PR9"] = new Error(ErrorType.PARSE_RECOMMEND,"建议逻辑表达式尽量少使用is false");//已完成
-		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");
+		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");//已完成
 		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
 		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
 		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");
 		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
-		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量明名");
+		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量名");//已完成
 		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
 		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
 		this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
@@ -108,13 +108,13 @@ export enum Tag{
 	KW_IF,KW_ELSE, // 判断
 	KW_FILE,KW_REMOVE,KW_ENTITY,KW_EVERY,KW_HAVE,KW_OWNS,KW_BELONG,KW_SET,KW_FROM,KW_FIFO,KW_LIFO, // 实体和集合
 	KW_SELECT,KW_ENDSELECT,KW_CASE,KW_DEFAULT,// switch
-	KW_RETUEN, //return
+	KW_RETURN, //return
 	KW_PREAMBLE,KW_INCLUDING,KW_SYSTEM,KW_SUBSYSTEM,KW_MAIN,KW_ROUTINE,KW_FUNCTION,KW_PROCESS,KW_EVENT,//这行即以下为simscript特有
 	KW_GIVEN,KW_YIELDING,KW_DEFINE,KW_ARTICLE,KW_THIS,KW_AS,KW_VARIABLE,KW_REFERENCE,KW_ARGUMENT,KW_DIMENSION,
 	KW_NORMALLY,KW_MODE,KW_NOT,KW_IS,KW_TEMPORARY,KW_PERMANENT,KW_CALL,KW_CREATE,KW_CALLED,KW_ACTIVITY,
 	KW_SCHEDULE,KW_WAIT,KW_WORK,KW_UNIT,KW_IN,KW_AT,KW_START,KW_SIMULATON,KW_READ,KW_WRITE,KW_PRINT,KW_LINE,KW_LET,
 	KW_RESERVE,KW_OPEN,KW_INPUT,KW_OUTPUT,KW_NAME,KW_USE,KW_THUS,KW_EMPTY,KW_MEAN,KW_ALPHA,KW_GO,KW_SIGNED_INTEGER,
-	KW_DUMMY,KW_SUBPROGRAM,KW_STREAM,KW_ARRAY,KW_ALL,KW_DESTORY,KW_SUBROUTINE,KW_THEN,KW_OTHERWISE,KW_ENDIF,KW_REGARDLESS,
+	KW_DUMMY,KW_SUBPROGRAM,KW_STREAM,KW_ARRAY,KW_ALL,KW_DESTROY,KW_SUBROUTINE,KW_THEN,KW_OTHERWISE,KW_ENDIF,KW_REGARDLESS,
 	KW_NEXTLINE, //换行
 	KW_TO,KW_BELONGS, // 用以合成的
 	LABEL//标签
@@ -154,7 +154,7 @@ class myKeyWords{
 		this.keyword['main'] = Tag.KW_MAIN;
 		this.keyword['routine'] = Tag.KW_ROUTINE;
 		this.keyword['function'] = Tag.KW_FUNCTION;
-		this.keyword['return'] = Tag.KW_RETUEN;
+		this.keyword['return'] = Tag.KW_RETURN;
 		this.keyword['process'] = Tag.KW_PROCESS;
 		this.keyword['processes'] = Tag.KW_PROCESS;
 		this.keyword['event'] = Tag.KW_EVENT;
@@ -237,7 +237,7 @@ class myKeyWords{
 		this.keyword['stream'] = Tag.KW_STREAM;
 		this.keyword['array'] = Tag.KW_ARRAY;
 		this.keyword['all'] = Tag.KW_ALL;
-		this.keyword['destory'] = Tag.KW_DESTORY;
+		this.keyword['destroy'] = Tag.KW_DESTROY;
 		this.keyword["subroutine"] = Tag.KW_SUBROUTINE;
 		this.keyword['then'] = Tag.KW_THEN;
 		this.keyword['otherwise'] = Tag.KW_OTHERWISE;
@@ -284,6 +284,7 @@ class myDocument{
 	myDocumentOffset:number;
 	constructor(public myTextDocument:TextDocument){
 		this.myDocumentOffset = 0;
+		
 	};
 	/**
 	 * getChar，获取一个字符,offset+1;
@@ -453,7 +454,9 @@ class lexer{
 					charNow = this.myLexDocument.getChar();
 				}while(this.isDigit(charNow) || charNow===".");
 				this.myTokens[this.myTokens.length] = new myToken(stringTemp,offsetTempBegin,this.myLexDocument.myDocumentOffset,Tag.NUM);
+				
 			}
+
 
 			//判断符号
 			else if(this.isSymbol(charNow))
@@ -490,6 +493,22 @@ class lexer{
 								message:this.lexErrorList.errorMap["PW10"].errorMessage
 							};
 							this.myDiagnostics.push(diagnostic);
+						}
+						//label下标值的情况
+						if(myLabel.indexOf("(")!=-1 && myLabel.indexOf(")")!=-1){
+							let numArr:number = Number(myLabel.match(/\d+/g))
+							if(numArr>3000){
+								let diagnostic = {
+									severity:DiagnosticSeverity.Information,
+									range:{
+										start:this.myLexerTextDocument.positionAt(myTokenOffsetBegin-1),
+										end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1)
+									},
+									message:this.lexErrorList.errorMap["PR10"].errorMessage
+								};
+								this.myDiagnostics.push(diagnostic);
+							} 
+					
 						}
 						charNow = this.myLexDocument.getChar();
 					}
