@@ -210,6 +210,51 @@ class MyParse {
                     };
                     this.parseDiagnostic.push(diagonsitic);
                 }
+                else if (!!this.myTokens[this.parsePosition].myTokenVal.match(/\d/g)) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PU1"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                else if (this.myTokens[this.parsePosition].myTokenVal.length > 15) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PU3"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                else if ((this.myTokens[this.parsePosition + 1].myTag == textDocuemtLearn_1.Tag.KW_TO && this.myTokens[this.parsePosition + 2].myTag == textDocuemtLearn_1.Tag.KW_MEAN) &&
+                    this.myTokens[this.parsePosition].myTokenVal != this.myTokens[this.parsePosition].myTokenVal.toUpperCase()) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PU2"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
+                else if (this.myTokens[this.parsePosition + 1].myTag != textDocuemtLearn_1.Tag.KW_AS) {
+                    let diagonsitic = {
+                        severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                        range: {
+                            start: this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart - 1),
+                            end: this.parseDocument.positionAt(this.myTokens[this.parsePosition + 1].myTokenOffsetEnd)
+                        },
+                        message: this.parseErrorList.errorMap["PU5"].errorMessage
+                    };
+                    this.parseDiagnostic.push(diagonsitic);
+                }
             }
             else if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.ID && this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.COMMA) {
                 let diagonsitic = {
@@ -317,9 +362,9 @@ class MyParse {
         }
     }
     /**
-     * destroy
+     * destory
      */
-    destroy() {
+    destory() {
         var _a, _b, _c;
         this.match();
         //去掉冠词
@@ -458,7 +503,7 @@ class MyParse {
             };
             this.parseDiagnostic.push(diagonsitic);
         }
-        if (this.myTokens[this.parsePosition].myTag != textDocuemtLearn_1.Tag.LPAREN) {
+        if (this.myTokens[this.parsePosition + 1].myTag != textDocuemtLearn_1.Tag.LPAREN) {
             let diagonsitic = {
                 severity: vscode_languageserver_1.DiagnosticSeverity.Warning,
                 range: {
@@ -567,7 +612,7 @@ class MyParse {
                 this.create();
             }
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_DESTROY) {
-                this.destroy();
+                this.destory();
             }
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_GIVEN) {
                 this.given();
@@ -584,6 +629,7 @@ class MyParse {
             else if (this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_FOR) {
                 this.for_stmt();
             }
+            //函数为空的情况
             else if ((this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_FUNCTION
                 || this.myTokens[this.parsePosition].myTag == textDocuemtLearn_1.Tag.KW_PROCESS)
                 && this.myTokens[this.parsePosition + 1].myTag == textDocuemtLearn_1.Tag.ID) {

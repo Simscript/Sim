@@ -44,7 +44,7 @@ class ErrorList {
         this.errorMap["PW11"] = new Error(ErrorType.PARSE_WARNING, "禁止全局变量与局部变量同名"); //已完成
         this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING, "禁止方法参数个数和顺序与定义的个数和顺序不相同");
         this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING, "当指针所指对象被毁灭(destroy)后必须置为0"); //已完成
-        this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING, "禁止函数为空");
+        this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING, "禁止函数为空"); //已完成
         this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING, "禁止给变量赋的值与变量的类型不一致");
         this.errorMap["PW16"] = new Error(ErrorType.PARSE_WARNING, "禁止将越界整数赋值给整型变量");
         this.errorMap["PW17"] = new Error(ErrorType.PARSE_WARNING, "禁止使用其他类型变量给指针变量赋值");
@@ -69,12 +69,21 @@ class ErrorList {
         this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND, "使用标签跳转，读取最大的下标值建议不超过3000"); //已完成
         this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND, "谨慎做整型量除以整型量的计算");
         this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND, "谨慎使用不同类型的混合运算");
-        this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND, "建议避免函数仅含有返回语句");
+        this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND, "建议避免函数仅含有返回语句"); //已完成
         this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND, "谨慎在循环体内部修改循环控制变量");
         this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND, "建议使用带类型前缀的变量名"); //已完成
         this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND, "定义事件函数执行的优先级");
         this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND, "尽量不要在事件函数外修改其所需的变量");
         this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND, "谨慎使用对象已经被毁灭的指针");
+        this.errorMap["PU1"] = new Error(ErrorType.PARSE_RECOMMEND, "尽量避免变量名中出现数字编号"); //已完成
+        this.errorMap["PU2"] = new Error(ErrorType.PARSE_RECOMMEND, "建议常量全0用大写字母，用下划线分割单词"); //部分完成
+        this.errorMap["PU3"] = new Error(ErrorType.PARSE_RECOMMEND, "避免使用过长的标识符，一般小于15个字符"); //已完成
+        this.errorMap["PU4"] = new Error(ErrorType.PARSE_RECOMMEND, "建议if语句的换行使用8个空格的规则");
+        this.errorMap["PU5"] = new Error(ErrorType.PARSE_RECOMMEND, "建议一行声明一个变量"); //已完成
+        this.errorMap["PU6"] = new Error(ErrorType.PARSE_RECOMMEND, "建议一元操作符和操作数之间不加空格"); //部分完成
+        this.errorMap["PU7"] = new Error(ErrorType.PARSE_RECOMMEND, "建议二元运算符与操作数之间用空格分开"); //
+        this.errorMap["PU8"] = new Error(ErrorType.PARSE_RECOMMEND, "函数名之后不要留空格，应紧跟左括号‘(’");
+        this.errorMap["PU9"] = new Error(ErrorType.PARSE_RECOMMEND, "每行的长度避免超过80字符");
     }
     ;
 }
@@ -674,6 +683,17 @@ class lexer {
                 else if (charNow === "-") {
                     let myTokenOffsetBegin = this.myLexDocument.myDocumentOffset;
                     this.myTokens[this.myTokens.length] = new myToken("-", myTokenOffsetBegin, myTokenOffsetBegin + 1, Tag.SUB);
+                    if (this.myTokens[this.myTokens.length - 1].myTag == Tag.ASSIGN && this.myTokens[this.myTokens.length + 1].myTag == Tag.NUM) {
+                        let diagnostic = {
+                            severity: vscode_languageserver_1.DiagnosticSeverity.Information,
+                            range: {
+                                start: this.myLexerTextDocument.positionAt(myTokenOffsetBegin - 1),
+                                end: this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset - 1)
+                            },
+                            message: this.lexErrorList.errorMap["PU6"].errorMessage
+                        };
+                        this.myDiagnostics.push(diagnostic);
+                    }
                     charNow = this.myLexDocument.getChar();
                 }
                 else if (charNow === "*") {

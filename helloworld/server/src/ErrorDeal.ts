@@ -157,7 +157,6 @@ export class MyParse{
 				this.parsePreamble.variables.variableDefinations.set(this.myTokens[this.parsePosition].myTokenVal,new VariableDefine(
 				this.myTokens[this.parsePosition].myTokenVal,Tag.PARSE_INIT))
 			}
-			
 			this.match();
 		}
 
@@ -242,7 +241,8 @@ export class MyParse{
 						message:this.parseErrorList.errorMap["PW11"].errorMessage
 					}
 					this.parseDiagnostic.push(diagonsitic)
-				}else if((this.myTokens[this.parsePosition].myTokenVal.toUpperCase()=="O") || (this.myTokens[this.parsePosition].myTokenVal=="l")){
+				}
+				else if((this.myTokens[this.parsePosition].myTokenVal.toUpperCase()=="O") || (this.myTokens[this.parsePosition].myTokenVal=="l")){
 					let diagonsitic:Diagnostic = {
 						severity:DiagnosticSeverity.Warning,
 						range:{
@@ -252,9 +252,12 @@ export class MyParse{
 						message:this.parseErrorList.errorMap["PW24"].errorMessage
 					}
 					this.parseDiagnostic.push(diagonsitic)
-				}else if((this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='i'&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='r'
+				}
+
+				else if((this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='i'&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='r'
 				&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='d'&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='t'
-				&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='p'&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='a')){
+				&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='p'&&this.myTokens[this.parsePosition].myTokenVal.substr(0,1)!='a'))
+				{
 					let diagonsitic:Diagnostic = {
 						severity:DiagnosticSeverity.Information,
 						range:{
@@ -266,7 +269,63 @@ export class MyParse{
 					this.parseDiagnostic.push(diagonsitic)
 				}
 
-			}else if(this.myTokens[this.parsePosition].myTag != Tag.ID && this.myTokens[this.parsePosition].myTag != Tag.COMMA){
+				
+				
+				
+				else if(!!this.myTokens[this.parsePosition].myTokenVal.match(/\d/g))
+				{
+					let diagonsitic:Diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
+							end:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+						},
+						message:this.parseErrorList.errorMap["PU1"].errorMessage
+					}
+					this.parseDiagnostic.push(diagonsitic)
+				}
+				
+				else if(this.myTokens[this.parsePosition].myTokenVal.length>15)
+				{
+					let diagonsitic:Diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
+							end:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+						},
+						message:this.parseErrorList.errorMap["PU3"].errorMessage
+					}
+					this.parseDiagnostic.push(diagonsitic)
+				}
+
+				else if((this.myTokens[this.parsePosition+1].myTag == Tag.KW_TO && this.myTokens[this.parsePosition+2].myTag == Tag.KW_MEAN) &&
+					this.myTokens[this.parsePosition].myTokenVal!=this.myTokens[this.parsePosition].myTokenVal.toUpperCase())
+				{
+					let diagonsitic:Diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
+							end:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+						},
+						message:this.parseErrorList.errorMap["PU2"].errorMessage
+					}
+					this.parseDiagnostic.push(diagonsitic)
+				}
+				else if(this.myTokens[this.parsePosition+1].myTag != Tag.KW_AS)
+				{
+					let diagonsitic:Diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
+							end:this.parseDocument.positionAt(this.myTokens[this.parsePosition+1].myTokenOffsetEnd)
+						},
+						message:this.parseErrorList.errorMap["PU5"].errorMessage
+					}
+					this.parseDiagnostic.push(diagonsitic)
+				}
+			}
+			else if(this.myTokens[this.parsePosition].myTag != Tag.ID && this.myTokens[this.parsePosition].myTag != Tag.COMMA)
+			{
 				let diagonsitic:Diagnostic = {
 					severity:DiagnosticSeverity.Warning,
 					range:{
@@ -277,8 +336,6 @@ export class MyParse{
 				}
 				this.parseDiagnostic.push(diagonsitic)
 			}
-			
-			
 			this.match();
 		}
 
@@ -410,9 +467,9 @@ export class MyParse{
 	}
 
 	/**
-	 * destroy
+	 * destory
 	 */
-	public destroy(){
+	public destory(){
 
 		this.match();
 
@@ -420,7 +477,6 @@ export class MyParse{
 		if(this.myTokens[this.parsePosition].myTag==Tag.KW_ARTICLE || this.myTokens[this.parsePosition].myTag == Tag.KW_THIS)
 		{
 			this.match();
-			
 		}
 
 		//表明必然是临时实体
@@ -440,6 +496,7 @@ export class MyParse{
 			{
 				this.match();//变成了called
 				this.match();//变成了called的对象
+
 				if(this.myTokens[this.parsePosition].myTag == Tag.ID){
 					let diagonsitic:Diagnostic = {
 						severity:DiagnosticSeverity.Warning,
@@ -451,10 +508,9 @@ export class MyParse{
 					}
 					this.parseDiagnostic.push(diagonsitic);
 				}
-				
 				this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)?.setIsCreate(Tag.KW_DESTROY);
 					
-				this.match();
+					this.match();
 			}
 			else{
 				this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)?.setIsCreate(Tag.KW_DESTROY);
@@ -472,24 +528,22 @@ export class MyParse{
 					
 					if(this.myTokens[this.parsePosition].myTag == Tag.ID && this.parsePreamble.entityList.entityMap.has(this.myTokens[this.parsePosition].myTokenVal))
 					{
-						
 						this.parsePreambleLocal.entityList.entityMap.get(this.myTokens[this.parsePosition].myTokenVal)?.setIsCreate(Tag.KW_DESTROY)
 					}
 					this.match();
 				}while((this.myTokens[this.parsePosition].myTag == Tag.ID || this.myTokens[this.parsePosition].myTag == Tag.COMMA)&&
 				this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart).line == parseLine);
 				let diagonsitic:Diagnostic = {
-					severity:DiagnosticSeverity.Warning,
-					range:{
-						start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
-						end:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
-					},
-					message:this.parseErrorList.errorMap["PW13"].errorMessage
+						severity:DiagnosticSeverity.Warning,
+						range:{
+							start:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetStart-1),
+							end:this.parseDocument.positionAt(this.myTokens[this.parsePosition].myTokenOffsetEnd)
+						},
+						message:this.parseErrorList.errorMap["PW13"].errorMessage
+					}
+					this.parseDiagnostic.push(diagonsitic);
 				}
-				this.parseDiagnostic.push(diagonsitic);
 			}
-
-	}
 	
 	/**
 	 * given
@@ -526,7 +580,6 @@ export class MyParse{
 			}
 			this.parseDiagnostic.push(diagonsitic);
 		}
-
 		//判断routine只有return语句
 		if (this.myTokens[this.parsePosition].myTag == Tag.KW_RETURN) {
 			let diagonsitic: Diagnostic = {
@@ -552,7 +605,6 @@ export class MyParse{
 			}
 			this.parseDiagnostic.push(diagonsitic);
 		}
-
 	}
 	
 	/**
@@ -577,7 +629,7 @@ export class MyParse{
 				this.parseDiagnostic.push(diagonsitic);
 					
 			}
-		if(this.myTokens[this.parsePosition].myTag != Tag.LPAREN)
+		if(this.myTokens[this.parsePosition+1].myTag != Tag.LPAREN)
 		{
 			
 			let diagonsitic:Diagnostic = {
@@ -675,7 +727,6 @@ export class MyParse{
 			this.parseDiagnostic.push(diagonsitic);
 		}
 	}
-
 	
 	/**
 	 * statement
@@ -703,7 +754,7 @@ export class MyParse{
 			}
 			else if(this.myTokens[this.parsePosition].myTag == Tag.KW_DESTROY)
 			{
-				this.destroy();
+				this.destory();
 			}
 			else if(this.myTokens[this.parsePosition].myTag == Tag.KW_GIVEN)
 			{
@@ -725,7 +776,7 @@ export class MyParse{
 			{
 				this.for_stmt();
 			}
-			
+			//函数为空的情况
 			else if ((this.myTokens[this.parsePosition].myTag == Tag.KW_FUNCTION
 				|| this.myTokens[this.parsePosition].myTag == Tag.KW_PROCESS)
 				&& this.myTokens[this.parsePosition + 1].myTag == Tag.ID) {
@@ -890,7 +941,7 @@ export class MyParse{
 				}
 				
 			}
-			
+            
 			else if(this.myTokens[this.parsePosition].myTag == Tag.KW_END)
 			{
 				this.match();
@@ -1026,7 +1077,6 @@ export class MyParse{
 				}
 				this.match();
 			}
-			
 		}
 		
 	}

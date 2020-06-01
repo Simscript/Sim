@@ -86,6 +86,17 @@ export class ErrorList{
 		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
 		this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
 
+		this.errorMap["PU1"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量避免变量名中出现数字编号");//已完成
+		this.errorMap["PU2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议常量全0用大写字母，用下划线分割单词");//部分完成
+		this.errorMap["PU3"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用过长的标识符，一般小于15个字符");//已完成
+		this.errorMap["PU4"] = new Error(ErrorType.PARSE_RECOMMEND,"建议if语句的换行使用8个空格的规则");
+		this.errorMap["PU5"] = new Error(ErrorType.PARSE_RECOMMEND,"建议一行声明一个变量");//已完成
+		this.errorMap["PU6"] = new Error(ErrorType.PARSE_RECOMMEND,"建议一元操作符和操作数之间不加空格");//部分完成
+		this.errorMap["PU7"] = new Error(ErrorType.PARSE_RECOMMEND,"建议二元运算符与操作数之间用空格分开");//
+		this.errorMap["PU8"] = new Error(ErrorType.PARSE_RECOMMEND,"函数名之后不要留空格，应紧跟左括号‘(’");
+		this.errorMap["PU9"] = new Error(ErrorType.PARSE_RECOMMEND,"每行的长度避免超过80字符");
+
+		
 	};
 }
 
@@ -284,7 +295,6 @@ class myDocument{
 	myDocumentOffset:number;
 	constructor(public myTextDocument:TextDocument){
 		this.myDocumentOffset = 0;
-		
 	};
 	/**
 	 * getChar，获取一个字符,offset+1;
@@ -454,9 +464,7 @@ class lexer{
 					charNow = this.myLexDocument.getChar();
 				}while(this.isDigit(charNow) || charNow===".");
 				this.myTokens[this.myTokens.length] = new myToken(stringTemp,offsetTempBegin,this.myLexDocument.myDocumentOffset,Tag.NUM);
-				
 			}
-
 
 			//判断符号
 			else if(this.isSymbol(charNow))
@@ -599,6 +607,7 @@ class lexer{
 					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
 					this.myTokens[this.myTokens.length] = new myToken("(",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.LPAREN);
 					charNow = this.myLexDocument.getChar();
+					
 				}
 
 				else if(charNow===")")
@@ -647,6 +656,18 @@ class lexer{
 				{
 					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
 					this.myTokens[this.myTokens.length] = new myToken("-",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.SUB);
+					if(this.myTokens[this.myTokens.length-1].myTag==Tag.ASSIGN && this.myTokens[this.myTokens.length+1].myTag==Tag.NUM)
+						{
+							let diagnostic = {
+								severity:DiagnosticSeverity.Information,
+								range:{
+									start:this.myLexerTextDocument.positionAt(myTokenOffsetBegin-1),
+									end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1)
+								},
+								message:this.lexErrorList.errorMap["PU6"].errorMessage
+							};
+							this.myDiagnostics.push(diagnostic);
+						}
 					charNow = this.myLexDocument.getChar();
 				}
 

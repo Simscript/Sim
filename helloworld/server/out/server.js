@@ -90,16 +90,16 @@ function getDocumentSettings(resource) {
     return result;
 }
 // Only keep settings for open documents
-documents.onDidClose(e => {
+documents.onDidClose((e) => {
     documentSettings.delete(e.document.uri);
 });
 var preamble = new ErrorDeal_1.myPreamble();
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
-documents.onDidChangeContent(change => {
+documents.onDidChangeContent((change) => {
     validateTextDocument(change.document);
 });
-documents.onDidSave(change => {
+documents.onDidSave((change) => {
     checkError(change.document);
 });
 function checkError(textDocument) {

@@ -17,6 +17,7 @@ import {
 	TextDocumentPositionParams
 } from 'vscode-languageserver';
 
+import * as fs from 'fs-extra';
 
 import {getTextDocument} from "./textDocuemtLearn";
 import {myOnCompletion} from './codeCompletion';
@@ -121,7 +122,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 }
 
 // Only keep settings for open documents
-documents.onDidClose(e => {
+documents.onDidClose((e: { document: { uri: string; }; }) => {
 	documentSettings.delete(e.document.uri);
 });
 
@@ -129,11 +130,11 @@ var preamble:myPreamble = new myPreamble();
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
-documents.onDidChangeContent(change => {
+documents.onDidChangeContent((change: { document: TextDocument; }) => {
 	validateTextDocument(change.document);
 });
 
-documents.onDidSave(change => {
+documents.onDidSave((change: { document: TextDocument; }) => {
 	checkError(change.document);
 });
 
