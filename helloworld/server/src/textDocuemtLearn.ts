@@ -51,40 +51,39 @@ export class ErrorList{
 		this.errorMap["PW10"] = new Error(ErrorType.PARSE_WARNING,"禁止将标签定义为关键字和基本类型");//已完成
 		this.errorMap["PW11"] = new Error(ErrorType.PARSE_WARNING,"禁止全局变量与局部变量同名");//已完成
 		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序与定义的个数和顺序不相同");
-		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");//已完成
+		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");//
 		this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING,"禁止函数为空");//已完成
-		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");
+		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");//
 		this.errorMap["PW16"] = new Error(ErrorType.PARSE_WARNING,"禁止将越界整数赋值给整型变量");
 		this.errorMap["PW17"] = new Error(ErrorType.PARSE_WARNING,"禁止使用其他类型变量给指针变量赋值");
-		this.errorMap["PW18"] = new Error(ErrorType.PARSE_WARNING,"禁止process，event，routine，function的返回值声明类型和实际调用类型不一致");
+		this.errorMap["PW18"] = new Error(ErrorType.PARSE_WARNING,"禁止process，event，routine，function的返回值声明类型和实际调用类型不一致");//待定
 		this.errorMap["PW19"] = new Error(ErrorType.PARSE_WARNING,"禁止对实数类型的量做是否相等的比较");
 		this.errorMap["PW20"] = new Error(ErrorType.PARSE_WARNING,"禁止对指针变量进行大小判断");
 		this.errorMap["PW21"] = new Error(ErrorType.PARSE_WARNING,"禁止使用实体名作为实体指针");
 		this.errorMap["PW22"] = new Error(ErrorType.PARSE_WARNING,"禁止在内部块中重新定义已有的变量名");
-		this.errorMap["PW23"] = new Error(ErrorType.PARSE_WARNING,"禁止局部变量名和函数名同名");
+		this.errorMap["PW23"] = new Error(ErrorType.PARSE_WARNING,"禁止局部变量名和函数名同名");//已实现
 		this.errorMap["PW24"] = new Error(ErrorType.PARSE_WARNING,"禁止单独使用小写字母“l”或大写字母“O”作为变量名");//已完成
-		this.errorMap["PW25"] = new Error(ErrorType.PARSE_WARNING,"禁止更改time.v的值");
-		this.errorMap["PW26"] = new Error(ErrorType.PARSE_WARNING,"在执行事件函数时必须加上start simulation");
+		this.errorMap["PW25"] = new Error(ErrorType.PARSE_WARNING,"禁止更改time.v的值");//已完成
+		this.errorMap["PW26"] = new Error(ErrorType.PARSE_WARNING,"在执行事件函数时必须加上start simulation");//部分完成
 
 
 		this.errorMap["PR1"] = new Error(ErrorType.PARSE_RECOMMEND,"建议在for或者while循环条件后，使用',do'");//已完成
 		this.errorMap["PR2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用define to mean定义常数"); // 已完成
 		this.errorMap["PR3"] = new Error(ErrorType.PARSE_RECOMMEND,"print语句下面的格式行一般不应缩进"); // 已完成
-		this.errorMap["PR4"] = new Error(ErrorType.PARSE_RECOMMEND,"建议谨慎修改数组起始下标");
-		this.errorMap["PR5"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用cycle语句");// 已完成
-		this.errorMap["PR6"] = new Error(ErrorType.PARSE_RECOMMEND,"建议文件及语法结构长度不宜过长");
-		this.errorMap["PR7"] = new Error(ErrorType.PARSE_RECOMMEND,"函数中避免使用过多的参数，建议不要超过10个");//已完成
-		this.errorMap["PR8"] = new Error(ErrorType.PARSE_RECOMMEND,"建议不使用for each");//已完成
-		this.errorMap["PR9"] = new Error(ErrorType.PARSE_RECOMMEND,"建议逻辑表达式尽量少使用is false");//已完成
-		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");//已完成
-		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
-		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
-		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");//已完成
-		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
-		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量名");//已完成
-		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
-		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
-		this.errorMap["PR18"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
+		this.errorMap["PR4"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用cycle语句");// 已完成
+		this.errorMap["PR5"] = new Error(ErrorType.PARSE_RECOMMEND,"建议文件及语法结构长度不宜过长");
+		this.errorMap["PR6"] = new Error(ErrorType.PARSE_RECOMMEND,"函数中避免使用过多的参数，建议不要超过10个");//已完成
+		this.errorMap["PR7"] = new Error(ErrorType.PARSE_RECOMMEND,"建议不使用for each");//已完成
+		this.errorMap["PR8"] = new Error(ErrorType.PARSE_RECOMMEND,"建议逻辑表达式尽量少使用is false");//已完成
+		this.errorMap["PR9"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");//已完成
+		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
+		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
+		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");//已完成
+		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
+		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量名");//已完成
+		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
+		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
+		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
 
 		this.errorMap["PU1"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量避免变量名中出现数字编号");//已完成
 		this.errorMap["PU2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议常量全0用大写字母，用下划线分割单词");//部分完成
@@ -128,6 +127,8 @@ export enum Tag{
 	KW_DUMMY,KW_SUBPROGRAM,KW_STREAM,KW_ARRAY,KW_ALL,KW_DESTROY,KW_SUBROUTINE,KW_THEN,KW_OTHERWISE,KW_ENDIF,KW_REGARDLESS,
 	KW_NEXTLINE, //换行
 	KW_TO,KW_BELONGS, // 用以合成的
+	KW_TIME,//time.v
+	KW_ACTIVATE,//activate
 	LABEL//标签
 }
 
@@ -254,6 +255,8 @@ class myKeyWords{
 		this.keyword['otherwise'] = Tag.KW_OTHERWISE;
 		this.keyword['endif'] = Tag.KW_ENDIF;
 		this.keyword['regardless'] = Tag.KW_REGARDLESS;
+		this.keyword['time.v'] = Tag.KW_TIME;
+		this.keyword['activate'] = Tag.KW_ACTIVATE;
  	};
 	/**
 	 * getTag
@@ -412,7 +415,7 @@ class lexer{
 				do{
 					stringTemp+=charNow;
 					charNow = this.myLexDocument.getChar();
-				}while(this.isAlpha(charNow) || charNow==="." || charNow ==="_" || this.isDigit(charNow));
+				}while(this.isAlpha(charNow) ||charNow==="." || charNow ==="_" || this.isDigit(charNow));
 				stringTemp = stringTemp.toLowerCase();
 				if(stringTemp=="to" && this.myTokens[this.myTokens.length-1].myTokenVal=="go")
 				{
@@ -434,7 +437,7 @@ class lexer{
 							start: this.myLexerTextDocument.positionAt(offsetTempBegin-1),
 							end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
 						},
-						message:this.lexErrorList.errorMap["PR5"].errorMessage
+						message:this.lexErrorList.errorMap["PR4"].errorMessage
 					};
 					this.myDiagnostics.push(diagnostic)
 				}
@@ -446,7 +449,7 @@ class lexer{
 							start : this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart-1),
 							end: this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
 						},
-						message:this.lexErrorList.errorMap["PR9"].errorMessage
+						message:this.lexErrorList.errorMap["PR8"].errorMessage
 					};
 					this.myDiagnostics.push(diagnostic)
 				}
@@ -512,7 +515,7 @@ class lexer{
 										start:this.myLexerTextDocument.positionAt(myTokenOffsetBegin-1),
 										end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1)
 									},
-									message:this.lexErrorList.errorMap["PR10"].errorMessage
+									message:this.lexErrorList.errorMap["PR9"].errorMessage
 								};
 								this.myDiagnostics.push(diagnostic);
 							} 
@@ -557,6 +560,22 @@ class lexer{
 				{
 					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
 					charNow = this.myLexDocument.getChar();
+					if(this.myTokens[this.myTokens.length-1].myTag==Tag.KW_TIME)
+					{
+						let diagnostic = {
+							severity:DiagnosticSeverity.Warning,
+							range:{
+								start:this.myLexerTextDocument.positionAt(myTokenOffsetBegin-8),
+								end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1)
+							},
+							message:this.lexErrorList.errorMap["PW25"].errorMessage
+						};
+						this.myDiagnostics.push(diagnostic);
+
+					}
+					
+					
+
 					if(charNow!=="=")
 					{
 						this.myTokens[this.myTokens.length] = new myToken("=",myTokenOffsetBegin,this.myLexDocument.myDocumentOffset,Tag.ASSIGN);
@@ -571,7 +590,6 @@ class lexer{
 				{
 					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
 					charNow = this.myLexDocument.getChar();
-
 					if(charNow!=="=")
 					{
 						this.myTokens[this.myTokens.length] = new myToken(">",myTokenOffsetBegin,this.myLexDocument.myDocumentOffset,Tag.GT);
