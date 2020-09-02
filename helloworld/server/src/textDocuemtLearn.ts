@@ -16,6 +16,7 @@ import {
 } from "vscode-languageserver-types";
 
 import {MyParse, myPreamble} from './ErrorDeal';
+//import {VariableDefination} from './ErrorDeal';
 
 export enum ErrorType{
 	LEX_WARNING,LEX_ERROR,PARSE_WARNING,PARSE_ERROR,PARSE_RECOMMEND
@@ -29,6 +30,7 @@ export enum ErrorType{
 export class Error{
 	constructor(public errorType:ErrorType,public errorMessage:string){};
 }
+
 
 /**
  * 错误列表
@@ -50,50 +52,53 @@ export class ErrorList{
 		this.errorMap["PW9"] = new Error(ErrorType.PARSE_WARNING,"if或者while后面的判断语句必须用小括号括起来");//已完成
 		this.errorMap["PW10"] = new Error(ErrorType.PARSE_WARNING,"禁止将标签定义为关键字和基本类型");//已完成
 		this.errorMap["PW11"] = new Error(ErrorType.PARSE_WARNING,"禁止全局变量与局部变量同名");//已完成
-		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序与定义的个数和顺序不相同");
-		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");//
+		this.errorMap["PW12"] = new Error(ErrorType.PARSE_WARNING,"禁止方法参数个数和顺序与定义的个数和顺序不相同");//sim 2.5不太适用，routine可以不用定义given和yielding
+		this.errorMap["PW13"] = new Error(ErrorType.PARSE_WARNING,"当指针所指对象被毁灭(destroy)后必须置为0");//已完成
 		this.errorMap["PW14"] = new Error(ErrorType.PARSE_WARNING,"禁止函数为空");//已完成
-		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");//
-		this.errorMap["PW16"] = new Error(ErrorType.PARSE_WARNING,"禁止将越界整数赋值给整型变量");
-		this.errorMap["PW17"] = new Error(ErrorType.PARSE_WARNING,"禁止使用其他类型变量给指针变量赋值");
+		this.errorMap["PW15"] = new Error(ErrorType.PARSE_WARNING,"禁止给变量赋的值与变量的类型不一致");//已完成 integer<->double alpha<->text
+		this.errorMap["PW16"] = new Error(ErrorType.PARSE_WARNING,"禁止将越界整数赋值给整型变量");//已完成
+		this.errorMap["PW17"] = new Error(ErrorType.PARSE_WARNING,"禁止使用其他类型变量给指针变量赋值");//已完成
 		this.errorMap["PW18"] = new Error(ErrorType.PARSE_WARNING,"禁止process，event，routine，function的返回值声明类型和实际调用类型不一致");//待定
-		this.errorMap["PW19"] = new Error(ErrorType.PARSE_WARNING,"禁止对实数类型的量做是否相等的比较");
-		this.errorMap["PW20"] = new Error(ErrorType.PARSE_WARNING,"禁止对指针变量进行大小判断");
-		this.errorMap["PW21"] = new Error(ErrorType.PARSE_WARNING,"禁止使用实体名作为实体指针");
-		this.errorMap["PW22"] = new Error(ErrorType.PARSE_WARNING,"禁止在内部块中重新定义已有的变量名");
-		this.errorMap["PW23"] = new Error(ErrorType.PARSE_WARNING,"禁止局部变量名和函数名同名");//已实现
+		this.errorMap["PW19"] = new Error(ErrorType.PARSE_WARNING,"禁止对实数类型的量做是否相等的比较");//已完成
+		this.errorMap["PW20"] = new Error(ErrorType.PARSE_WARNING,"禁止对指针变量进行大小判断");//已完成
+		this.errorMap["PW21"] = new Error(ErrorType.PARSE_WARNING,"禁止使用实体名作为实体指针");//已完成
+		this.errorMap["PW22"] = new Error(ErrorType.PARSE_WARNING,"禁止在内部块中重新定义已有的变量名");//待定
+		this.errorMap["PW23"] = new Error(ErrorType.PARSE_WARNING,"禁止局部变量名和函数名同名");//已完成
 		this.errorMap["PW24"] = new Error(ErrorType.PARSE_WARNING,"禁止单独使用小写字母“l”或大写字母“O”作为变量名");//已完成
 		this.errorMap["PW25"] = new Error(ErrorType.PARSE_WARNING,"禁止更改time.v的值");//已完成
-		this.errorMap["PW26"] = new Error(ErrorType.PARSE_WARNING,"在执行事件函数时必须加上start simulation");//部分完成
-
+		
 
 		this.errorMap["PR1"] = new Error(ErrorType.PARSE_RECOMMEND,"建议在for或者while循环条件后，使用',do'");//已完成
-		this.errorMap["PR2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用define to mean定义常数"); // 已完成
-		this.errorMap["PR3"] = new Error(ErrorType.PARSE_RECOMMEND,"print语句下面的格式行一般不应缩进"); // 已完成
-		this.errorMap["PR4"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用cycle语句");// 已完成
-		this.errorMap["PR5"] = new Error(ErrorType.PARSE_RECOMMEND,"建议文件及语法结构长度不宜过长");
+		this.errorMap["PR2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用define to mean定义常数"); //已完成
+		this.errorMap["PR3"] = new Error(ErrorType.PARSE_RECOMMEND,"print语句下面的格式行一般不应缩进"); //已完成
+		this.errorMap["PR4"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用cycle语句");//已完成
+		this.errorMap["PR5"] = new Error(ErrorType.PARSE_RECOMMEND,"建议文件及语法结构长度不宜过长");//已完成
 		this.errorMap["PR6"] = new Error(ErrorType.PARSE_RECOMMEND,"函数中避免使用过多的参数，建议不要超过10个");//已完成
 		this.errorMap["PR7"] = new Error(ErrorType.PARSE_RECOMMEND,"建议不使用for each");//已完成
 		this.errorMap["PR8"] = new Error(ErrorType.PARSE_RECOMMEND,"建议逻辑表达式尽量少使用is false");//已完成
 		this.errorMap["PR9"] = new Error(ErrorType.PARSE_RECOMMEND,"使用标签跳转，读取最大的下标值建议不超过3000");//已完成
-		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");
-		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用不同类型的混合运算");
-		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");//已完成
-		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");
-		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量名");//已完成
-		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");
-		this.errorMap["PR16"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量不要在事件函数外修改其所需的变量");
-		this.errorMap["PR17"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");
+		this.errorMap["PR10"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎做整型量除以整型量的计算");//已完成
+		this.errorMap["PR11"] = new Error(ErrorType.PARSE_RECOMMEND,"建议避免函数仅含有返回语句");//已完成
+		this.errorMap["PR12"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎在循环体内部修改循环控制变量");//待定
+		this.errorMap["PR13"] = new Error(ErrorType.PARSE_RECOMMEND,"建议使用带类型前缀的变量名");//已完成
+		this.errorMap["PR14"] = new Error(ErrorType.PARSE_RECOMMEND,"定义事件函数执行的优先级");//已完成
+		this.errorMap["PR15"] = new Error(ErrorType.PARSE_RECOMMEND,"谨慎使用对象已经被毁灭的指针");//已完成
 
 		this.errorMap["PU1"] = new Error(ErrorType.PARSE_RECOMMEND,"尽量避免变量名中出现数字编号");//已完成
-		this.errorMap["PU2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议常量全0用大写字母，用下划线分割单词");//部分完成
+		this.errorMap["PU2"] = new Error(ErrorType.PARSE_RECOMMEND,"建议常量名全用大写字母，用下划线分割单词");//部分完成
 		this.errorMap["PU3"] = new Error(ErrorType.PARSE_RECOMMEND,"避免使用过长的标识符，一般小于15个字符");//已完成
 		this.errorMap["PU4"] = new Error(ErrorType.PARSE_RECOMMEND,"建议if语句的换行使用8个空格的规则");
 		this.errorMap["PU5"] = new Error(ErrorType.PARSE_RECOMMEND,"建议一行声明一个变量");//已完成
-		this.errorMap["PU6"] = new Error(ErrorType.PARSE_RECOMMEND,"建议一元操作符和操作数之间不加空格");//部分完成
-		this.errorMap["PU7"] = new Error(ErrorType.PARSE_RECOMMEND,"建议二元运算符与操作数之间用空格分开");//
-		this.errorMap["PU8"] = new Error(ErrorType.PARSE_RECOMMEND,"函数名之后不要留空格，应紧跟左括号‘(’");
-		this.errorMap["PU9"] = new Error(ErrorType.PARSE_RECOMMEND,"每行的长度避免超过80字符");
+		this.errorMap["PU6"] = new Error(ErrorType.PARSE_RECOMMEND,"建议一元操作符和操作数之间不加空格");//已完成
+		this.errorMap["PU7"] = new Error(ErrorType.PARSE_RECOMMEND,"建议二元运算符与操作数之间用空格分开");//部分完成
+		this.errorMap["PU8"] = new Error(ErrorType.PARSE_RECOMMEND,"函数名之后不要留空格，应紧跟左括号‘(’");//已完成
+		this.errorMap["PU9"] = new Error(ErrorType.PARSE_RECOMMEND,"每行的长度避免超过80字符");//已完成
+		this.errorMap["PU10"] = new Error(ErrorType.PARSE_RECOMMEND,"在每个preamble内部的每种声明语句后面要加空行");
+		this.errorMap["PU11"] = new Error(ErrorType.PARSE_RECOMMEND,"两个例程之间或者两个函数之间要加空行");//已完成
+		this.errorMap["PU12"] = new Error(ErrorType.PARSE_RECOMMEND,"函数返回语句和其他语句之间使用空行分开");//已完成
+		this.errorMap["PU13"] = new Error(ErrorType.PARSE_RECOMMEND,"块注释或单行注释之前要加空行");//已完成
+		this.errorMap["PU14"] = new Error(ErrorType.PARSE_RECOMMEND,"每行至多包含一条语句");
+		this.errorMap["PU15"] = new Error(ErrorType.PARSE_RECOMMEND,"所有源文件应当以Simscript格式注释开始");
 
 		
 	};
@@ -129,7 +134,10 @@ export enum Tag{
 	KW_TO,KW_BELONGS, // 用以合成的
 	KW_TIME,//time.v
 	KW_ACTIVATE,//activate
-	LABEL//标签
+	LABEL,//标签
+	KW_DESTROYZERO,//毁灭后并置0
+	KW_PRIORITY,//优先级
+	KW_ORDER//顺序
 }
 
 class myKeyWords{
@@ -186,6 +194,7 @@ class myKeyWords{
 		this.keyword['arguments'] = Tag.KW_ARGUMENT;
 		this.keyword['dimension'] = Tag.KW_DIMENSION
 		this.keyword['dim'] = Tag.KW_DIMENSION;
+		this.keyword['dimensional'] = Tag.KW_DIMENSION;
 		this.keyword['normally'] = Tag.KW_NORMALLY;
 		this.keyword['mode'] = Tag.KW_MODE;
 		this.keyword['not'] = Tag.KW_NOT;
@@ -257,6 +266,8 @@ class myKeyWords{
 		this.keyword['regardless'] = Tag.KW_REGARDLESS;
 		this.keyword['time.v'] = Tag.KW_TIME;
 		this.keyword['activate'] = Tag.KW_ACTIVATE;
+		this.keyword['priority']= Tag.KW_PRIORITY;
+		this.keyword['order'] = Tag.KW_ORDER;
  	};
 	/**
 	 * getTag
@@ -323,6 +334,84 @@ class myDocument{
 	}
 }
 
+// export default class Stack {
+
+// 	constructor() {
+// 	  this.items = [];
+// 	}
+  
+// 	// push(item) 压栈操作，往栈里面添加元素
+// 	push(item) {
+// 	  this.items.push(item);
+// 	}
+  
+// 	// pop() 出栈操作，从栈中取出元素，并返回取出的那个元素
+// 	pop() {
+// 	  return this.items.pop();
+// 	}
+  
+// 	// peek() 查看栈顶元素
+// 	peek() {
+// 	  return this.items[this.items.length - 1];
+// 	}
+  
+// 	clear(){
+// 		return this.items.length = 0;
+// 	}
+  
+// 	// size() 获取栈中元素个数
+// 	size() {
+// 	  return this.items.length;
+// 	}
+  
+// 	// toString() 返回以字符串形式的栈内元素数据
+// 	toString() {
+// 	  let result = '';
+// 	  for (let item of this.items) {
+// 		result += item + ' ';
+// 	  }
+// 	  return result;
+// 	}
+//   }
+//   function suffixExpression(str:string){
+//     //var str = 'a+b*c+(d*e+f)*g';
+//     var stack = new Stack();
+//     var outStack = new Array();
+//     for (var i=0; i<str.length; ++i) {
+//         if(')' == str[i]){
+//             while (true){
+//                 var top = stack.peek();
+//                 stack.pop();
+//                 if('(' != top){
+//                     outStack[outStack.length] = top;
+//                 }else{
+//                     break;
+//                 }
+//             }
+//         }else if(['-','+'].indexOf(str[i])>-1){
+//             if(['*','/'].indexOf(stack.peek())>-1){
+//                 while (['*','/'].indexOf(stack.peek())>-1){
+//                     outStack[outStack.length] = stack.peek();
+//                     stack.pop();
+//                 }
+//                 outStack[outStack.length] = str[i];
+//             }else{
+//                 stack.push(str[i]);
+//             }
+//         }else if(['(','*','/'].indexOf(str[i])>-1){
+//             stack.push(str[i]);
+//         }else{
+//             outStack[outStack.length] = str[i];
+//         }        
+//     }
+    
+//     for (var i=0; i< outStack.length; i++) {
+//         document.write(outStack[i]);
+//     }
+    
+
+// }
+  
 /**
  * 词法分析类
  * myTokens:词法分析结果
@@ -455,6 +544,28 @@ class lexer{
 				}
 				let tagTemp:Tag = this.myKeywords.getTag(stringTemp);
 				this.myTokens[this.myTokens.length] = new myToken(stringTemp,offsetTempBegin,this.myLexDocument.myDocumentOffset,tagTemp);
+
+				// 二元操作符规范
+				if((this.myTokens[this.myTokens.length-1].myTag == Tag.ID
+					&& (this.myTokens[this.myTokens.length-2].myTag == Tag.ADD || this.myTokens[this.myTokens.length-2].myTag == Tag.SUB 
+					|| this.myTokens[this.myTokens.length-2].myTag == Tag.MUL || this.myTokens[this.myTokens.length-2].myTag == Tag.DIV
+					||this.myTokens[this.myTokens.length-2].myTag == Tag.ASSIGN || this.myTokens[this.myTokens.length-2].myTag == Tag.EQU)
+					&& (this.myTokens[this.myTokens.length-3].myTag==Tag.NUM || this.myTokens[this.myTokens.length-3].myTag==Tag.ID)) 
+					&& ((this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart).character 
+					!== this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-2].myTokenOffsetEnd).character + 1 ) 
+					|| (this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-2].myTokenOffsetStart).character 
+					!== this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-3].myTokenOffsetEnd).character + 1 )))
+				{
+					let diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-3].myTokenOffsetStart-1),
+							end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+						},
+						message:this.lexErrorList.errorMap["PU7"].errorMessage
+					};
+					this.myDiagnostics.push(diagnostic);
+				}
 			}
 
 			// 判断数字
@@ -467,6 +578,25 @@ class lexer{
 					charNow = this.myLexDocument.getChar();
 				}while(this.isDigit(charNow) || charNow===".");
 				this.myTokens[this.myTokens.length] = new myToken(stringTemp,offsetTempBegin,this.myLexDocument.myDocumentOffset,Tag.NUM);
+
+				// 二元操作符规范
+				if(((this.myTokens[this.myTokens.length-2].myTag == Tag.ADD || this.myTokens[this.myTokens.length-2].myTag == Tag.SUB || this.myTokens[this.myTokens.length-2].myTag == Tag.MUL || this.myTokens[this.myTokens.length-2].myTag == Tag.DIV ||this.myTokens[this.myTokens.length-2].myTag == Tag.ASSIGN || this.myTokens[this.myTokens.length-2].myTag == Tag.EQU)
+					&& (this.myTokens[this.myTokens.length-3].myTag==Tag.NUM || this.myTokens[this.myTokens.length-3].myTag==Tag.ID)) 
+					&& ((this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart).character 
+					!== this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-2].myTokenOffsetEnd).character+1) 
+					|| (this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-2].myTokenOffsetStart).character 
+					!== this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-3].myTokenOffsetEnd).character+1)))
+				{
+					let diagnostic = {
+						severity:DiagnosticSeverity.Information,
+						range:{
+							start:this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-3].myTokenOffsetStart-1),
+							end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+						},
+						message:this.lexErrorList.errorMap["PU7"].errorMessage
+					};
+					this.myDiagnostics.push(diagnostic);
+				}
 			}
 
 			//判断符号
@@ -478,6 +608,21 @@ class lexer{
 					charNow = this.myLexDocument.getChar();
 					if(charNow=="'")
 					{
+						
+						if(this.myTokens.length !== 0 && this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart+1).line 
+						== this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1).line-1)
+						{
+							let diagnostic = {
+								severity:DiagnosticSeverity.Information,
+								range:{
+									start:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-2),
+									end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+								},
+								message:this.lexErrorList.errorMap["PU13"].errorMessage
+							};
+							this.myDiagnostics.push(diagnostic);
+						}
+
 						do{
 							charNow = this.myLexDocument.getChar();							
 						}while(charNow!=="\n" && charNow!=="");
@@ -507,8 +652,8 @@ class lexer{
 						}
 						//label下标值的情况
 						if(myLabel.indexOf("(")!=-1 && myLabel.indexOf(")")!=-1){
-							let numArr:number = Number(myLabel.match(/\d+/g))
-							if(numArr>3000){
+							//let numArr:number = Number(myLabel.match(/\d+/g))
+							if(Number(myLabel.match(/\d+/g))>3000){//
 								let diagnostic = {
 									severity:DiagnosticSeverity.Information,
 									range:{
@@ -533,6 +678,20 @@ class lexer{
 					let charPrePre = "";
 					if(charNow === "~")
 					{
+						if(this.myTokens.length !== 0 && this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart+1).line 
+						== this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1).line-1)
+						{
+							let diagnostic = {
+								severity:DiagnosticSeverity.Information,
+								range:{
+									start:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-2),
+									end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+								},
+								message:this.lexErrorList.errorMap["PU13"].errorMessage
+							};
+							this.myDiagnostics.push(diagnostic);
+						}
+						
 						do{
 							charPrePre = charPre;
 							charPre = charNow;
@@ -540,21 +699,27 @@ class lexer{
 						}while((charPrePre==="/" || charNow!=="/" || charPre !=="~") && charNow!=="");
 						charNow = this.myLexDocument.getChar();
 					}
+					else
+                    {
+                        let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset-1;
+                        this.myTokens[this.myTokens.length] = new myToken("/",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.DIV);
+                    }
 				}
 
-				else if(charNow==="\"")
-				{
-					charNow = this.myLexDocument.getChar();
-					let stringTemp = ""
-					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
-					while(charNow!==""&&charNow!=="\"")
-					{
-						stringTemp+=charNow;
-						charNow = this.myLexDocument.getChar();
-					}
-
-					this.myTokens[this.myTokens.length] = new myToken(stringTemp,myTokenOffsetBegin,this.myLexDocument.myDocumentOffset,Tag.str);
-				}
+				else if(charNow==="\"")
+                {
+                    charNow = this.myLexDocument.getChar();
+                    let stringTemp = ""
+                    let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
+                    while(charNow!=="\"" && charNow!=="")
+                    {
+                        stringTemp += charNow;
+                        charNow = this.myLexDocument.getChar();
+                        
+                    }
+                    this.myTokens[this.myTokens.length] = new myToken(stringTemp,myTokenOffsetBegin,this.myLexDocument.myDocumentOffset,Tag.str);
+                    charNow = this.myLexDocument.getChar();
+                }
 
 				else if(charNow==="=")
 				{
@@ -573,8 +738,6 @@ class lexer{
 						this.myDiagnostics.push(diagnostic);
 
 					}
-					
-					
 
 					if(charNow!=="=")
 					{
@@ -674,18 +837,6 @@ class lexer{
 				{
 					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
 					this.myTokens[this.myTokens.length] = new myToken("-",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.SUB);
-					if(this.myTokens[this.myTokens.length-1].myTag==Tag.ASSIGN && this.myTokens[this.myTokens.length+1].myTag==Tag.NUM)
-						{
-							let diagnostic = {
-								severity:DiagnosticSeverity.Information,
-								range:{
-									start:this.myLexerTextDocument.positionAt(myTokenOffsetBegin-1),
-									end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1)
-								},
-								message:this.lexErrorList.errorMap["PU6"].errorMessage
-							};
-							this.myDiagnostics.push(diagnostic);
-						}
 					charNow = this.myLexDocument.getChar();
 				}
 
@@ -696,12 +847,12 @@ class lexer{
 					charNow = this.myLexDocument.getChar();
 				}
 
-				else if(charNow==="/")
-				{
-					let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
-					this.myTokens[this.myTokens.length] = new myToken("/",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.DIV);
-					charNow = this.myLexDocument.getChar();
-				}
+				// else if(charNow==="/")
+				// {
+				// 	let myTokenOffsetBegin:number = this.myLexDocument.myDocumentOffset;
+				// 	this.myTokens[this.myTokens.length] = new myToken("/",myTokenOffsetBegin,myTokenOffsetBegin+1,Tag.DIV);
+				// 	charNow = this.myLexDocument.getChar();
+				// }
 
 				else if(charNow===",")
 				{
@@ -744,6 +895,38 @@ class lexer{
 						}
 						this.myDiagnostics.push(diagnostic)
 					}
+
+					else if((this.myTokens.length>0)&&(this.myTokens[this.myTokens.length-1].myTag==Tag.SUB || this.myTokens[this.myTokens.length-1].myTag==Tag.ADD)
+					&& (this.myTokens[this.myTokens.length-2].myTag==Tag.ASSIGN || this.myTokens[this.myTokens.length-2].myTag==Tag.GT
+					   ||this.myTokens[this.myTokens.length-2].myTag==Tag.LT || this.myTokens[this.myTokens.length-2].myTag==Tag.GE
+					   ||this.myTokens[this.myTokens.length-2].myTag==Tag.LE || this.myTokens[this.myTokens.length-2].myTag==Tag.LPAREN
+					   ||this.myTokens[this.myTokens.length-2].myTag==Tag.COMMA))
+				   {
+					   let diagnostic = {
+						   severity:DiagnosticSeverity.Information,
+						   range:{
+							   start:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1),
+							   end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+						   },
+						   message:this.lexErrorList.errorMap["PU6"].errorMessage
+					   };
+					   this.myDiagnostics.push(diagnostic);
+				   }
+
+				   else if((this.myTokens.length>0)&&(this.myTokens[this.myTokens.length-1].myTag==Tag.ID 
+					&& this.myTokens[this.myTokens.length-2].myTag==Tag.KW_FUNCTION ))
+				   {
+					   let diagnostic:Diagnostic={
+						   severity:DiagnosticSeverity.Information,
+						   range:{
+							   start:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset-1),
+							   end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset)
+						   },
+						   message:this.lexErrorList.errorMap["PU8"].errorMessage
+					   }
+					   this.myDiagnostics.push(diagnostic)
+				   }
+
 					charNow = this.myLexDocument.getChar();
 				}while(this.isNoSense(charNow))
 			}
@@ -751,6 +934,19 @@ class lexer{
 			else{
 				console.log(charNow);
 				charNow = this.myLexDocument.getChar();
+			}
+
+			if (this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset).character > 80)
+			{
+				let diagnostic = {
+					severity:DiagnosticSeverity.Information,
+					range:{
+						start:this.myLexerTextDocument.positionAt(this.myTokens[this.myTokens.length-1].myTokenOffsetStart+1),
+						end:this.myLexerTextDocument.positionAt(this.myLexDocument.myDocumentOffset+1)
+					},
+					message:this.lexErrorList.errorMap["PU9"].errorMessage
+				};
+				this.myDiagnostics.push(diagnostic);
 			}
 		}
 	
